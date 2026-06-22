@@ -333,8 +333,13 @@ export async function obtenerListaAsignaturas(quadri) {
       `https://api.fib.upc.edu/v2/quadrimestres/${quadri}/assignatures/?client_id=${clientId}`,
       { headers: apiHeaders },
     )
+    if (!response.ok) {
+      console.error('Error HTTP al obtener la lista de asignaturas:', response.status)
+      return []
+    }
+
     const data = await response.json()
-    return data.results ?? []
+    return Array.isArray(data.results) ? data.results : []
   } catch (error) {
     console.error('Error al obtener la lista de asignaturas:', error)
     return []

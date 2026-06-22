@@ -13,7 +13,7 @@ import { colorDeAsignatura } from '../lib/colores.js'
 export function Controles({
   busqueda,
   onBusqueda,
-  resultados,
+  resultados = [],
   seleccionadas,
   gruposExcluidos,
   onAnadir,

@@ -6,7 +6,6 @@ import { Horario } from './components/Horario.jsx'
 import {
   DIAS,
   HORAS,
-  quadriActual,
   obtenerQuadriMasReciente,
   obtenerListaAsignaturas,
   calcularHorario,
@@ -15,11 +14,17 @@ import {
 /** Clave única para una celda (dia, hora) del horario. */
 const claveCelda = (dia, hora) => `${dia}|${hora}`
 
+function asignaturasValidas(lista) {
+  if (!Array.isArray(lista)) return []
+  return lista.filter((item) => typeof item === 'string' && item.length > 0)
+}
+
 export default function App() {
   // Mantiene el tema claro FIB aplicado a <html> (sin conmutador visible).
   useTheme()
 
   // ── Datos provenientes de la lógica de negocio ──────────────────────────
+  const [quadri, setQuadri] = useState(null)
   const [listaAsignaturas, setListaAsignaturas] = useState([])
 
   // ── Estado de la interacción (lo gestiona el layout) ─────────────────────
@@ -36,9 +41,12 @@ export default function App() {
     let cancelled = false
 
     async function cargar() {
-      await obtenerQuadriMasReciente()
+      const quadriActual = await obtenerQuadriMasReciente()
       const lista = await obtenerListaAsignaturas(quadriActual)
-      if (!cancelled) setListaAsignaturas(lista ?? [])
+      if (!cancelled) {
+        setQuadri(quadriActual)
+        setListaAsignaturas(asignaturasValidas(lista))
+      }
     }
 
     cargar()
@@ -52,7 +60,8 @@ export default function App() {
   const resultados = useMemo(() => {
     const termino = busqueda.trim().toUpperCase()
     if (!termino) return []
-    return listaAsignaturas.filter(
+
+    return asignaturasValidas(listaAsignaturas).filter(
       (a) => a.toUpperCase().includes(termino) && !seleccionadas.includes(a),
     )
   }, [busqueda, listaAsignaturas, seleccionadas])
@@ -108,12 +117,14 @@ export default function App() {
 
   // "Calcular": limpia el horario y lo rellena con lo que devuelva la lógica.
   const calcular = async () => {
+    if (!quadri) return
+
     const celdasTuplas = [...celdas].map((c) => {
       const [dia, hora] = c.split('|')
       return [dia, Number(hora)]
     })
     const resultado = await calcularHorario(
-      quadriActual,
+      quadri,
       seleccionadas,
       celdasTuplas,
       gruposExcluidos,
