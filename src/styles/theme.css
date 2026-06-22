@@ -1,0 +1,39 @@
+/* Tema oscuro opcional (localStorage). */
+:root[data-theme='dark'] {
+  --convis-theme-color: #4f8cff;
+  --convis-theme-color-second: #f0616d;
+  --body-link-color: #6eb5ff;
+  --body-link-color-hover: #3b7bff;
+  --topbar-bg-color: #a30f28;
+  --body-color: #9aa4b2;
+
+  --bg: #0c0f14;
+  --bg-elevated: #11151c;
+  --bg-panel: #11151c;
+  --surface: #161b23;
+  --surface-2: #1b212b;
+  --surface-hover: #1f2632;
+  --border: #232a35;
+  --border-strong: #323b49;
+
+  --text: #e7ecf2;
+  --text-muted: #9aa4b2;
+  --text-faint: #69727f;
+
+  --accent: #4f8cff;
+  --accent-strong: #3b7bff;
+  --link: #f0616d;
+
+  --cell: #331a1e;
+  --cell-available: #2b3340;
+  --cell-available-border: #3c4554;
+  --stripe: rgba(248, 113, 113, 0.18);
+  --fib-breadcrumb-bg: #161b23;
+  --fib-casella: #2b3340;
+  --fib-classe-bg: #1e3a5f;
+
+  --danger: #f0616d;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+
+  color-scheme: dark;
+}

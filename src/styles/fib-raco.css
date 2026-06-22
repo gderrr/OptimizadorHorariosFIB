@@ -1,0 +1,279 @@
+/* ============================================================================
+ *  Tokens y componentes extraídos del tema Convis / FIB (El Racó)
+ *  Fuente: El Racó _ Facultat d'Informàtica de Barcelona_files/css_pNME-*.css
+ * ========================================================================== */
+
+:root,
+:root[data-theme='light'] {
+  --convis-font-sans-serif: 'Manrope', sans-serif;
+  --convis-heading-font-family: 'Red Hat Display', sans-serif;
+
+  --convis-theme-color: #007ac1;
+  --convis-theme-color-second: #ff0d00;
+  --body-link-color: #007ac1;
+  --body-link-color-hover: #00618e;
+  --menu-link-color-hover: #00618e;
+  --submenu-link-color-hover: #ff0d00;
+  --bg-ressaltar: #3e64ff0d;
+  --topbar-bg-color: #ff0d00;
+  --topbar-color-icon: #fff;
+  --border-color: #dddddd;
+  --topbar-link-color: #ffffff;
+  --topbar-link-color-hover: #696868;
+
+  --font-body-weight: 400;
+  --font-body-size: 16px;
+  --body-color: #74787c;
+
+  --fib-casella: #eeedea;
+  --fib-titol-assig-bg: #d5e6f0;
+  --fib-titol-assig-color: #006a9e;
+  --fib-classe-bg: #d9edf7;
+  --fib-ple: #d61831;
+  --fib-breadcrumb-bg: #f2f5f6;
+
+  --bg: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-panel: #ffffff;
+  --surface: #ffffff;
+  --surface-2: var(--fib-breadcrumb-bg);
+  --surface-hover: #eef1f3;
+  --border: var(--border-color);
+  --border-strong: #bbbbbb;
+
+  --text: #1a1a1a;
+  --text-muted: var(--body-color);
+  --text-faint: #999999;
+
+  --accent: var(--convis-theme-color);
+  --accent-strong: var(--body-link-color-hover);
+  --accent-contrast: #ffffff;
+  --accent-soft: var(--bg-ressaltar);
+  --link: var(--convis-theme-color-second);
+
+  --cell: var(--fib-casella);
+  --cell-available: #ffffff;
+  --cell-available-border: var(--border-color);
+  --stripe: rgba(214, 24, 49, 0.12);
+
+  --danger: var(--convis-theme-color-second);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+  --radius: 0;
+  --radius-sm: 0;
+
+  color-scheme: light;
+}
+
+/* Topbar */
+.topbar {
+  background: var(--topbar-bg-color);
+  color: var(--topbar-link-color);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.topbar__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 28px;
+}
+
+/* Cabecera con logo */
+.header-one {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.header-one__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 28px;
+}
+
+.header-one__branding img {
+  max-width: 275px;
+  height: auto;
+  display: block;
+}
+
+/* Migas de pan + título (El Racó) */
+.breadcrumb-content-inner {
+  background-color: var(--fib-breadcrumb-bg);
+  margin-bottom: 2rem;
+}
+
+.breadcrumb-content-inner .breadcrumb-content-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 28px;
+  text-align: left;
+}
+
+.breadcrumb-content-inner .gva-block-breadcrumb .page-title {
+  margin: 0 0 16px;
+  font-family: var(--convis-heading-font-family);
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.1;
+  text-align: left;
+  color: var(--text);
+}
+
+.breadcrumb-content-inner .breadcrumb-links {
+  padding: 0 0 10px;
+}
+
+.breadcrumb-content-inner .breadcrumb-links ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.breadcrumb-content-inner .breadcrumb-links li {
+  font-size: 15px;
+  color: var(--body-color);
+  font-weight: 700;
+}
+
+.breadcrumb-content-inner .breadcrumb-links li a {
+  color: var(--convis-theme-color-second);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.breadcrumb-content-inner .breadcrumb-links li a:hover {
+  color: var(--body-link-color-hover);
+}
+
+.breadcrumb-content-inner .breadcrumb-links li + li::before {
+  content: '>';
+  margin: 0 8px;
+  color: var(--body-color);
+  font-weight: 700;
+}
+
+.intro__text {
+  margin: 0;
+  max-width: 72ch;
+  font-size: var(--font-body-size);
+  line-height: 1.8;
+  color: var(--body-color);
+}
+
+/* Caja informativa azul (fitxa) */
+.fitxa {
+  background: var(--convis-theme-color);
+  color: #ffffff;
+  padding: 0.75em 1em;
+  margin-top: 0;
+}
+
+.fitxa a {
+  color: #ffffff;
+}
+
+/* Caja con sombra */
+.caixa_sombra {
+  margin: 0;
+  padding: 30px 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: #ffffff;
+  position: relative;
+}
+
+/* Botón principal del tema */
+.btn-theme {
+  font-size: 16px;
+  background: var(--convis-theme-color);
+  color: #fff;
+  font-weight: 700;
+  padding: 15px 30px;
+  line-height: 1;
+  display: inline-block;
+  transition: all 0.35s;
+  border: none;
+  border-radius: 0;
+  text-transform: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn-theme:hover {
+  background: var(--body-link-color-hover);
+  color: #fff;
+}
+
+/* Inputs estilo body-page */
+.body-page input[type='text'],
+.body-page input[type='tel'],
+.body-page input[type='password'],
+.body-page input[type='email'],
+.body-page textarea,
+.body-page select {
+  background-color: #fff;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.02) inset;
+  border: 1px solid var(--border-color);
+  padding: 5px 10px;
+  color: var(--text);
+}
+
+.body-page input[type='text']:focus,
+.body-page input[type='email']:focus,
+.body-page select:focus,
+.body-page textarea:focus {
+  border-color: var(--convis-theme-color);
+  outline: none;
+}
+
+.body-page label {
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+/* Horario FIB */
+.casella {
+  background-color: var(--fib-casella);
+  color: #000000;
+}
+
+.titol-assig {
+  background-color: var(--fib-titol-assig-bg);
+  font-weight: bold;
+  color: var(--fib-titol-assig-color);
+}
+
+.classe-horari {
+  border: 2px solid var(--border-color);
+  font-weight: bold;
+  text-align: center;
+}
+
+.ple {
+  color: var(--fib-ple);
+}
+
+/* Pie de página (estilo FIB) */
+.site-footer {
+  margin-top: auto;
+  background: #000000;
+  color: #cccccc;
+}
+
+.site-footer__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 28px 32px;
+}
+
+.site-footer__aviso {
+  margin: 0;
+  max-width: 72ch;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #999999;
+}
