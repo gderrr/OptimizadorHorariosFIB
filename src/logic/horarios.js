@@ -307,13 +307,13 @@ export async function obtenerQuadriMasReciente() {
       { headers: apiHeaders },
     );
     //console.log(response.text());
-    const data = await response.json();
-    quadriActual = data.id;
-    return quadriActual;
+    const data = await response.json()
+    quadriActual = data.id ?? null
+    return quadriActual
   } catch (error) {
-    console.error('Error al obtener el cuatrimestre más reciente:', error);
-    quadriActual = null;
-    return null;
+    console.error('Error al obtener el cuatrimestre más reciente:', error)
+    quadriActual = null
+    return null
   }
 }
 
@@ -326,17 +326,18 @@ export async function obtenerQuadriMasReciente() {
  *    @returns {Asignatura[]}   Conjunto de identificadores de asignatura.
  * ────────────────────────────────────────────────────────────────────────── */
 export async function obtenerListaAsignaturas(quadri) {
+  if (!quadri) return []
+
   try {
     const response = await fetch(
       `https://api.fib.upc.edu/v2/quadrimestres/${quadri}/assignatures/?client_id=${clientId}`,
       { headers: apiHeaders },
-    );
-    //console.log(response.text());
-    const data = await response.json();
-    return data.results;
+    )
+    const data = await response.json()
+    return data.results ?? []
   } catch (error) {
-    console.error('Error al obtener la lista de asignaturas:', error);
-    return null;
+    console.error('Error al obtener la lista de asignaturas:', error)
+    return []
   }
 }
 

@@ -38,7 +38,7 @@ export default function App() {
     async function cargar() {
       await obtenerQuadriMasReciente()
       const lista = await obtenerListaAsignaturas(quadriActual)
-      if (!cancelled) setListaAsignaturas(lista)
+      if (!cancelled) setListaAsignaturas(lista ?? [])
     }
 
     cargar()
