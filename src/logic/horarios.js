@@ -210,50 +210,76 @@ function armarHorario(
     const familias = construirFamiliasPorAsignatura(sesiones)
 
     for (const familia of familias) {
-      if (
-        !todasLasSesionesCaben(
-          familia.principal.sesiones,
-          horarioMatrix,
-          ocupacion,
-          assig,
-          permitirSolapamientosEntreAsignaturas,
+      if (familia.principal) {
+        if (
+          !todasLasSesionesCaben(
+            familia.principal.sesiones,
+            horarioMatrix,
+            ocupacion,
+            assig,
+            permitirSolapamientosEntreAsignaturas,
+          )
+        ) {
+          continue
+        }
+
+        familia.subgrupos.sort((a, b) => ordenarGrupos(a.grup, b.grup))
+
+        const subgruposCompatibles = familia.subgrupos.filter((subgrupo) =>
+          todasLasSesionesCaben(
+            subgrupo.sesiones,
+            horarioMatrix,
+            ocupacion,
+            assig,
+            permitirSolapamientosEntreAsignaturas,
+          ),
         )
-      ) {
-        continue
-      }
 
-      familia.subgrupos.sort((a, b) => ordenarGrupos(a.grup, b.grup))
+        if (subgruposCompatibles.length === 0) continue
 
-      const subgruposCompatibles = familia.subgrupos.filter((subgrupo) =>
-        todasLasSesionesCaben(
-          subgrupo.sesiones,
-          horarioMatrix,
-          ocupacion,
-          assig,
-          permitirSolapamientosEntreAsignaturas,
-        ),
-      )
-
-      if (subgruposCompatibles.length === 0) continue
-
-      colocarSesionesCompletas(
-        familia.principal.sesiones,
-        horarioMatrix,
-        ocupacion,
-        assig,
-        resultado,
-        permitirSolapamientosEntreAsignaturas,
-      )
-
-      for (const subgrupo of subgruposCompatibles) {
         colocarSesionesCompletas(
-          subgrupo.sesiones,
+          familia.principal.sesiones,
           horarioMatrix,
           ocupacion,
           assig,
           resultado,
           permitirSolapamientosEntreAsignaturas,
         )
+
+        for (const subgrupo of subgruposCompatibles) {
+          colocarSesionesCompletas(
+            subgrupo.sesiones,
+            horarioMatrix,
+            ocupacion,
+            assig,
+            resultado,
+            permitirSolapamientosEntreAsignaturas,
+          )
+        }
+      } else {
+        // Sin grupo principal (x0): cada subgrupo es un grupo válido por sí solo.
+        familia.subgrupos.sort((a, b) => ordenarGrupos(a.grup, b.grup))
+
+        for (const subgrupo of familia.subgrupos) {
+          if (
+            todasLasSesionesCaben(
+              subgrupo.sesiones,
+              horarioMatrix,
+              ocupacion,
+              assig,
+              permitirSolapamientosEntreAsignaturas,
+            )
+          ) {
+            colocarSesionesCompletas(
+              subgrupo.sesiones,
+              horarioMatrix,
+              ocupacion,
+              assig,
+              resultado,
+              permitirSolapamientosEntreAsignaturas,
+            )
+          }
+        }
       }
     }
   }
@@ -290,8 +316,12 @@ function construirFamiliasPorAsignatura(sesiones) {
   }
 
   return [...familias.values()]
-    .filter((familia) => familia.principal)
-    .sort((a, b) => ordenarGrupos(a.principal.grup, b.principal.grup))
+    .filter((familia) => familia.principal || familia.subgrupos.length > 0)
+    .sort((a, b) => {
+      const grupA = a.principal?.grup ?? a.subgrupos[0]?.grup ?? ''
+      const grupB = b.principal?.grup ?? b.subgrupos[0]?.grup ?? ''
+      return ordenarGrupos(grupA, grupB)
+    })
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
@@ -353,9 +383,10 @@ export async function obtenerListaAsignaturas(quadri) {
  *
  *    Por cada asignatura (en el orden en que fueron escogidas), se recorren
  *    todas las familias de grupo (10, 20…) y se muestran las sesiones
- *    compatibles de cada una. Una familia solo es válida si el grupo principal
- *    (x0) encaja por completo y tiene al menos un subgrupo (xy) compatible;
- *    sin grupo no hay subgrupos, y sin subgrupo compatible se descarta el grupo.
+ *    compatibles de cada una. Con grupo principal (x0), la familia solo es
+ *    válida si el principal encaja y tiene al menos un subgrupo (xy) compatible.
+ *    Si la familia no tiene grupo principal, cada subgrupo se trata como un
+ *    grupo independiente y se muestra si encaja por completo.
  *    Cada sesión debe caber entera (inici + durada en franjas seleccionadas).
  *    Los grupos indicados en `exclusionesPorAsignatura` no se consideran.
  *    Un bloque se excluye si alguna hora de su sesión no está seleccionada o,
