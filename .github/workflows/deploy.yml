@@ -17,12 +17,21 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: github-pages
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
+      - name: Verificar VITE_CLIENT_ID
+        run: |
+          if [ -z "$VITE_CLIENT_ID" ]; then
+            echo "::error::VITE_CLIENT_ID vacío. Configúralo en Settings → Secrets and variables → Actions (Repository secrets) o en el environment github-pages."
+            exit 1
+          fi
+        env:
+          VITE_CLIENT_ID: ${{ secrets.VITE_CLIENT_ID }}
       - run: npm ci
       - run: npm run build
         env:
